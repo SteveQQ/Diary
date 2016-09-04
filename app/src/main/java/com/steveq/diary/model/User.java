@@ -2,6 +2,8 @@ package com.steveq.diary.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
     private String mUserName;
@@ -37,4 +39,11 @@ public class User {
         User user = (User)object;
         return this.mUserName.equals(user.getUserName());
     }
+
+    public boolean validate(String input){
+        Pattern pattern = Pattern.compile("[a-zA-Z\\d]*");
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+
 }

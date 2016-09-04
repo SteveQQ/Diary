@@ -31,7 +31,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:textSize="30sp"
-        android:text="@string/username"
+        android:hint="@string/username"
         android:maxLength="20"/>
 
     <EditText
