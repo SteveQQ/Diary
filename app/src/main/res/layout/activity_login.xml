@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.steveq.diary.LoginActivity">
+    tools:context=".controller.LoginActivity">
 
     <ImageView
         android:id="@+id/diary_pic"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:src="@drawable/diary"/>
 
@@ -47,9 +47,15 @@
         android:maxLength="20"/>
 
     <Button
-        android:id="@+id/new_user"
+        android:id="@+id/log_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:text="@string/log_in"/>
+
+    <Button
+        android:id="@+id/new_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/new_user"/>
 </LinearLayout>

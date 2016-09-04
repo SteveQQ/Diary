@@ -2,5 +2,6 @@
     <string name="app_name">Diary</string>
     <string name="username">Enter your username</string>
     <string name="password">Enter your password</string>
+    <string name="log_in">Log In</string>
     <string name="new_user">New User</string>
 </resources>
