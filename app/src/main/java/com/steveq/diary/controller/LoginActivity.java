@@ -1,5 +1,6 @@
 package com.steveq.diary.controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,14 +40,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = mUserNameArea.getText().toString();
                 String password = mPasswordArea.getText().toString();
-                if(credentialValidation() && !mUserManager.contains(username)){
-                    User.USERS.add(new User(username, password));
+                if(credentialValidation() && !User.USERS.containsKey(username)){
+                    User.USERS.put(username, new User(username, password));
                 } else {
                     Toast.makeText(LoginActivity.this, "User already exists", Toast.LENGTH_LONG).show();
                 }
             }
         });
-
 
         mLogIn = (Button)findViewById(R.id.log_in);
         mLogIn.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +54,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = mUserNameArea.getText().toString();
                 String password = mPasswordArea.getText().toString();
-                if(credentialValidation() && mUserManager.contains(username)){
+                if(credentialValidation() && User.USERS.containsKey(username)){
                     if(mUserManager.passwordMatches(username, password)){
                         Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(LoginActivity.this, NotesActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "No such user", Toast.LENGTH_LONG).show();

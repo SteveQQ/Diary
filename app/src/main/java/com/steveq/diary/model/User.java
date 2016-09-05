@@ -2,28 +2,20 @@ package com.steveq.diary.model;
 
 import android.util.Log;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class User {
     private String mUserName;
-    private String mPassword;
-    public static Set<User> USERS = new HashSet<>();
+    protected String mPassword;
+    private ArrayList<Note> mNoteList;
+    public static Map<String, User> USERS = new HashMap<>();
 
     public User(String username, String password){
         mUserName = username;
         mPassword = password;
-        USERS.add(this);
-        Log.d("SET", USERS.iterator().next().toString());
-        Log.d("SET", USERS.size()+"");
-    }
-
-    public String getPassword() {
-        return mPassword;
-    }
-
-    public String getUserName() {
-        return mUserName;
+        mNoteList = new ArrayList<>();
     }
 
     @Override
@@ -40,7 +32,6 @@ public class User {
 
     @Override
     public boolean equals(Object object){
-        User user = (User)object;
-        return this.mUserName.equals(user.getUserName());
+        return this.mUserName.equals(mUserName);
     }
 }
