@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(mUserManager.passwordMatches(username, password)){
                         Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, NotesActivity.class);
+                        intent.putExtra("username", username);
                         startActivity(intent);
                     } else {
                         Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();

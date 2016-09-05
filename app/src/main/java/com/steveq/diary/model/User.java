@@ -18,6 +18,10 @@ public class User {
         mNoteList = new ArrayList<>();
     }
 
+    public ArrayList<Note> getNoteList() {
+        return mNoteList;
+    }
+
     @Override
     public String toString(){
         return mUserName;

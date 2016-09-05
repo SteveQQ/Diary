@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".controller.NotesActivity">
         </activity>
+        <activity android:name=".controller.NoteCreatorActivity">
+        </activity>
     </application>
 
 </manifest>
