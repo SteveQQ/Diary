@@ -15,32 +15,45 @@ import com.steveq.diary.model.User;
 
 public class NotesActivity extends AppCompatActivity {
 
-    ListView mNotesList;
-    Button mAddNote;
+    private ListView mNotesList;
+    private Button mAddNote;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_list);
 
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+
         mAddNote = (Button)findViewById(R.id.add_note);
 
         mAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent createNote = new Intent(NotesActivity.this, NoteCreatorActivity.class);
+                createNote.putExtra("username", username);
+                startActivity(createNote);
             }
         });
 
         mNotesList = (ListView)findViewById(R.id.notes);
 
-        Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
-
-        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
+        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<>(
                                         this,
-                                        android.R.layout.simple_list_item_1,
+                                        android.R.layout.simple_expandable_list_item_1,
                                         User.USERS.get(username).getNoteList());
+        mNotesList.setAdapter(noteAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
+                this,
+                android.R.layout.simple_list_item_1,
+                User.USERS.get(username).getNoteList());
         mNotesList.setAdapter(noteAdapter);
     }
 }

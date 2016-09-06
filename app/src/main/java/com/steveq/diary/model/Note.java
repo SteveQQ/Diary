@@ -5,9 +5,9 @@ import java.util.Date;
 public class Note {
     private String mTitle;
     private String mContent;
-    private Date mDate;
+    private String mDate;
 
-    public Note(String title, String content, Date date){
+    public Note(String title, String content, String date){
         mTitle = title;
         mContent = content;
         mDate = date;

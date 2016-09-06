@@ -22,6 +22,10 @@ public class User {
         return mNoteList;
     }
 
+    public void addNote(Note note){
+        mNoteList.add(note);
+    }
+
     @Override
     public String toString(){
         return mUserName;
