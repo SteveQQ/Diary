@@ -46,6 +46,7 @@ public class NoteCreatorActivity extends AppCompatActivity {
         });
 
         runTimer();
+
     }
 
     private void runTimer(){
