@@ -8,17 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.steveq.diary.R;
-import com.steveq.diary.model.User;
 import com.steveq.diary.model.UserManager;
-
-import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mUserNameArea;
@@ -26,13 +18,15 @@ public class LoginActivity extends AppCompatActivity {
     private Button mLogIn;
     private Button mNewUser;
     private Button mReomveUser;
-
     private UserManager mUserManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mUserManager = UserManager.getInstance(this);
 
         mUserNameArea = (EditText)findViewById(R.id.username);
         mPasswordArea = (EditText)findViewById(R.id.password);
@@ -40,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         mLogIn = (Button)findViewById(R.id.log_in);
         mReomveUser = (Button)findViewById(R.id.remove_user);
 
-        mUserManager = new UserManager(this);
         mUserManager.initializeUsersList();
 
         mNewUser.setOnClickListener(new View.OnClickListener() {

@@ -7,11 +7,11 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.steveq.diary.controller.LoginActivity;
 import com.steveq.diary.controller.NotesActivity;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -19,19 +19,28 @@ import java.util.regex.Pattern;
 
 public class UserManager {
 
+    private static UserManager instance = null;
+
     private Context mContext;
     private static Set<String> mUserNames;
     private SharedPreferences mSharedPreferences;
     private Gson gson;
     private BasicTextEncryptor mEncryptor;
 
-    public UserManager(Context ctx){
+    protected UserManager(Context ctx){
         mContext = ctx;
         mUserNames = new HashSet<>();
         mSharedPreferences = ctx.getSharedPreferences("myUsers", Activity.MODE_PRIVATE);
         gson = new Gson();
         mEncryptor = new BasicTextEncryptor();
         mEncryptor.setPassword("2851#%!dsga1@$!%$");
+    }
+
+    public static UserManager getInstance(Context ctx){
+        if(instance == null){
+            instance = new UserManager(ctx);
+        }
+        return instance;
     }
 
     //******GETTERS SETTERS******//
@@ -105,6 +114,24 @@ public class UserManager {
             Toast.makeText(mContext, "Wrong Credentials", Toast.LENGTH_LONG).show();
             return false;
         }
+    }
+
+    public void addNote(String username, Note note){
+        String jsonUser = mSharedPreferences.getString(username, "");
+        User user = gson.fromJson(mEncryptor.decrypt(jsonUser), User.class);
+        user.addNote(note);
+
+        jsonUser = gson.toJson(user);
+        SharedPreferences.Editor mSharedPreferencesEditor = mSharedPreferences.edit();
+        mSharedPreferencesEditor.putString(username, mEncryptor.encrypt(jsonUser));
+        mSharedPreferencesEditor.commit();
+
+    }
+
+    public ArrayList<Note> showNotes(String username){
+        String jsonUser = mSharedPreferences.getString(username, "");
+        User user = gson.fromJson(mEncryptor.decrypt(jsonUser), User.class);
+        return user.getNoteList();
     }
     //******USERS SERVICES*****//
 

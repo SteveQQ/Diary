@@ -14,6 +14,7 @@ import com.steveq.diary.model.Note;
 import com.steveq.diary.model.User;
 import com.steveq.diary.model.UserManager;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class NoteCreatorActivity extends AppCompatActivity {
@@ -23,12 +24,14 @@ public class NoteCreatorActivity extends AppCompatActivity {
     EditText mContent;
     Button mFinishNote;
     private String username;
-    private String time;
+    private UserManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_creator);
+
+        manager = UserManager.getInstance(null);
 
         mTitle = (EditText)findViewById(R.id.titl);
         mTimeArea = (TextView)findViewById(R.id.curTime);
@@ -41,7 +44,7 @@ public class NoteCreatorActivity extends AppCompatActivity {
         mFinishNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //UserManager.getUserNames().get(username).addNote(new Note(mTitle.getText().toString(), mContent.getText().toString(), time));
+                manager.addNote(username, new Note(mTitle.getText().toString(), mContent.getText().toString(), mTimeArea.getText().toString()));
                 finish();
             }
         });
@@ -56,16 +59,11 @@ public class NoteCreatorActivity extends AppCompatActivity {
         timer.post(new Runnable() {
             @Override
             public void run() {
-                long curTime = System.currentTimeMillis();
+                String time;
                 final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DATE);
-                int hour = c.get(Calendar.HOUR);
-                int minutes = c.get(Calendar.MINUTE);
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy | HH:mm");
 
-                time = String.format("%d-%d-%d, %d:%d",day, month, year, hour, minutes);
-
+                time = sdf.format(c.getTime());
                 mTimeArea.setText(time);
 
                 timer.postDelayed(this, 1000);

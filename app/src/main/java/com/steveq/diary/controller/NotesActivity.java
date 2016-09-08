@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.steveq.diary.R;
 import com.steveq.diary.model.Note;
 import com.steveq.diary.model.User;
+import com.steveq.diary.model.UserManager;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -18,11 +19,14 @@ public class NotesActivity extends AppCompatActivity {
     private Button mAddNote;
     private Button mLogOut;
     private String username;
+    private UserManager mUserManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_list);
+
+        mUserManager = UserManager.getInstance(null);
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
@@ -48,21 +52,20 @@ public class NotesActivity extends AppCompatActivity {
 
         mNotesList = (ListView)findViewById(R.id.notes);
 
-//        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<>(
-//                                        this,
-//                                        android.R.layout.simple_expandable_list_item_1,
-//                                        User.USERS.get(username).getNoteList());
-//        mNotesList.setAdapter(noteAdapter);
+        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<>(
+                                        this,
+                                        android.R.layout.simple_list_item_1, mUserManager.showNotes(username));
+        mNotesList.setAdapter(noteAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
-//                this,
-//                android.R.layout.simple_list_item_1,
-//                User.USERS.get(username).getNoteList());
-//        mNotesList.setAdapter(noteAdapter);
+        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
+                this,
+                android.R.layout.simple_list_item_1,
+                mUserManager.showNotes(username));
+        mNotesList.setAdapter(noteAdapter);
     }
 
     @Override
