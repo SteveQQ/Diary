@@ -16,6 +16,7 @@ public class NotesActivity extends AppCompatActivity {
 
     private ListView mNotesList;
     private Button mAddNote;
+    private Button mLogOut;
     private String username;
 
     @Override
@@ -27,6 +28,14 @@ public class NotesActivity extends AppCompatActivity {
         username = intent.getStringExtra("username");
 
         mAddNote = (Button)findViewById(R.id.add_note);
+        mLogOut = (Button)findViewById(R.id.log_out);
+
+        mLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,4 +64,10 @@ public class NotesActivity extends AppCompatActivity {
 //                User.USERS.get(username).getNoteList());
 //        mNotesList.setAdapter(noteAdapter);
     }
+
+    @Override
+    public void onBackPressed(){
+
+    }
+
 }
