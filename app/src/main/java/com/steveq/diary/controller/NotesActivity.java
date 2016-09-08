@@ -39,20 +39,20 @@ public class NotesActivity extends AppCompatActivity {
 
         mNotesList = (ListView)findViewById(R.id.notes);
 
-        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<>(
-                                        this,
-                                        android.R.layout.simple_expandable_list_item_1,
-                                        User.USERS.get(username).getNoteList());
-        mNotesList.setAdapter(noteAdapter);
+//        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<>(
+//                                        this,
+//                                        android.R.layout.simple_expandable_list_item_1,
+//                                        User.USERS.get(username).getNoteList());
+//        mNotesList.setAdapter(noteAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
-                this,
-                android.R.layout.simple_list_item_1,
-                User.USERS.get(username).getNoteList());
-        mNotesList.setAdapter(noteAdapter);
+//        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
+//                this,
+//                android.R.layout.simple_list_item_1,
+//                User.USERS.get(username).getNoteList());
+//        mNotesList.setAdapter(noteAdapter);
     }
 }

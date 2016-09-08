@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.steveq.diary.R;
 import com.steveq.diary.model.Note;
 import com.steveq.diary.model.User;
+import com.steveq.diary.model.UserManager;
 
 import java.util.Calendar;
 
@@ -40,7 +41,7 @@ public class NoteCreatorActivity extends AppCompatActivity {
         mFinishNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User.USERS.get(username).addNote(new Note(mTitle.getText().toString(), mContent.getText().toString(), time));
+                //UserManager.getUserNames().get(username).addNote(new Note(mTitle.getText().toString(), mContent.getText().toString(), time));
                 finish();
             }
         });

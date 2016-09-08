@@ -8,9 +8,8 @@ import java.util.Map;
 
 public class User {
     private String mUserName;
-    protected String mPassword;
+    private String mPassword;
     private ArrayList<Note> mNoteList;
-    public static Map<String, User> USERS = new HashMap<>();
 
     public User(String username, String password){
         mUserName = username;
@@ -18,6 +17,9 @@ public class User {
         mNoteList = new ArrayList<>();
     }
 
+    public String getPassword() {
+        return mPassword;
+    }
     public ArrayList<Note> getNoteList() {
         return mNoteList;
     }
