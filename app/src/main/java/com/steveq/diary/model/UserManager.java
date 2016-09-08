@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.steveq.diary.controller.LoginActivity;
 import com.steveq.diary.controller.NotesActivity;
 
+import org.jasypt.util.text.BasicTextEncryptor;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -21,12 +23,15 @@ public class UserManager {
     private static Set<String> mUserNames;
     private SharedPreferences mSharedPreferences;
     private Gson gson;
+    private BasicTextEncryptor mEncryptor;
 
     public UserManager(Context ctx){
         mContext = ctx;
         mUserNames = new HashSet<>();
         mSharedPreferences = ctx.getSharedPreferences("myUsers", Activity.MODE_PRIVATE);
         gson = new Gson();
+        mEncryptor = new BasicTextEncryptor();
+        mEncryptor.setPassword("2851#%!dsga1@$!%$");
     }
 
     //******GETTERS SETTERS******//
@@ -48,7 +53,7 @@ public class UserManager {
             String jsonUser = gson.toJson(new User(username, password));
 
             SharedPreferences.Editor mSharedPreferencesEditor = mSharedPreferences.edit();
-            mSharedPreferencesEditor.putString(username, jsonUser);
+            mSharedPreferencesEditor.putString(username, mEncryptor.encrypt(jsonUser));
             mSharedPreferencesEditor.commit();
             registerUser(username);
             mSharedPreferencesEditor.putStringSet("usersSet", mUserNames);
@@ -65,7 +70,7 @@ public class UserManager {
     public boolean logIn(String username, String password){
         if(credentialValidation(username, password) && mUserNames.contains(username)){
             String jsonUser = mSharedPreferences.getString(username, "");
-            User user = gson.fromJson(jsonUser, User.class);
+            User user = gson.fromJson(mEncryptor.decrypt(jsonUser), User.class);
             if(passwordMatches(user, password)){
                 Intent intent = new Intent(mContext, NotesActivity.class);
                 intent.putExtra("username", username);
