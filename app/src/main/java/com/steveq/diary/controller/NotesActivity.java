@@ -1,5 +1,6 @@
 package com.steveq.diary.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,8 +20,8 @@ public class NotesActivity extends AppCompatActivity {
     private ListView mNotesList;
     private Button mAddNote;
     private Button mLogOut;
-    private String username;
     private UserManager mUserManager;
+    public static final int CHECK_IF_REMOVE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,13 @@ public class NotesActivity extends AppCompatActivity {
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Note note = mUserManager.showNote(position);
                 Intent intent = new Intent(NotesActivity.this, NotePresentationActivity.class);
-                startActivity(intent);
+                intent.putExtra("title", note.getTitle());
+                intent.putExtra("date", note.getDate());
+                intent.putExtra("content", note.getContent());
+                intent.putExtra("position", position);
+                startActivityForResult(intent, CHECK_IF_REMOVE);
             }
         };
 
@@ -83,6 +89,18 @@ public class NotesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == CHECK_IF_REMOVE){
+            if(resultCode == Activity.RESULT_OK){
+                mUserManager.removeNote(data.getIntExtra("position", -1));
+            }
+            if(resultCode == Activity.RESULT_CANCELED){
+
+            }
+        }
     }
 
 }

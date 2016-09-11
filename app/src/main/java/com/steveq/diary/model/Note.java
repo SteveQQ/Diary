@@ -12,6 +12,18 @@ public class Note {
         mDate = date;
     }
 
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public String getContent() {
+        return mContent;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+
     @Override
     public String toString() {
         return mTitle + mDate;

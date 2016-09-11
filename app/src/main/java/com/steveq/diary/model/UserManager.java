@@ -114,6 +114,17 @@ public class UserManager {
     public ArrayList<Note> showNotes(){
         return loadUser(currentUser).getNoteList();
     }
+
+    public Note showNote(int index) {
+        return loadUser(currentUser).getNoteList().get(index);
+    }
+
+    public boolean removeNote(int position){
+        User user = loadUser(currentUser);
+        user.getNoteList().remove(position);
+        saveUser(currentUser, user);
+        return true;
+    }
     //******USERS SERVICES*****//
 
     //******HELPER METHODS*****//
