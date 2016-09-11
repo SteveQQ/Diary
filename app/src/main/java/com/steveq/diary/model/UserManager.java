@@ -27,6 +27,7 @@ public class UserManager {
     SharedPreferences.Editor mSharedPreferencesEditor;
     private Gson gson;
     private BasicTextEncryptor mEncryptor;
+    private String currentUser;
 
     protected UserManager(Context ctx){
         mContext = ctx;
@@ -74,8 +75,8 @@ public class UserManager {
     public boolean logIn(String username, String password){
         if(credentialValidation(username, password) && mUserNames.contains(username)){
             if(passwordMatches(loadUser(username), password)){
+                currentUser = username;
                 Intent intent = new Intent(mContext, NotesActivity.class);
-                intent.putExtra("username", username);
                 mContext.startActivity(intent);
                 return true;
             } else {
@@ -104,14 +105,14 @@ public class UserManager {
         }
     }
 
-    public void addNote(String username, Note note){
-        User user = loadUser(username);
+    public void addNote(Note note){
+        User user = loadUser(currentUser);
         user.addNote(note);
-        saveUser(username, user);
+        saveUser(currentUser, user);
     }
 
-    public ArrayList<Note> showNotes(String username){
-        return loadUser(username).getNoteList();
+    public ArrayList<Note> showNotes(){
+        return loadUser(currentUser).getNoteList();
     }
     //******USERS SERVICES*****//
 

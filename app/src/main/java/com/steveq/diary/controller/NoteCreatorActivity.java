@@ -23,7 +23,6 @@ public class NoteCreatorActivity extends AppCompatActivity {
     TextView mTimeArea;
     EditText mContent;
     Button mFinishNote;
-    private String username;
     private UserManager manager;
 
     @Override
@@ -38,13 +37,10 @@ public class NoteCreatorActivity extends AppCompatActivity {
         mContent = (EditText)findViewById(R.id.content);
         mFinishNote = (Button)findViewById(R.id.add_new_note);
 
-        Intent intent = getIntent();
-        username = intent.getStringExtra("username");
-
         mFinishNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manager.addNote(username, new Note(mTitle.getText().toString(), mContent.getText().toString(), mTimeArea.getText().toString()));
+                manager.addNote(new Note(mTitle.getText().toString(), mContent.getText().toString(), mTimeArea.getText().toString()));
                 finish();
             }
         });
