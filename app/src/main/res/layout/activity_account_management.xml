@@ -16,21 +16,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Diary"
+        android:text="@string/account_management"
         android:layout_gravity="center"
         android:textSize="30dp"/>
-
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="30sp"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
-        android:maxLength="20"/>
 
     <EditText
         android:id="@+id/password"
@@ -38,22 +26,25 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:hint="@string/password"
         android:textSize="30sp"
         android:inputType="textPassword"
         android:maxLength="20"/>
 
     <Button
-        android:id="@+id/log_in"
+        android:id="@+id/remove_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/log_in"/>
+        android:text="@string/remove_user"/>
 
     <Button
-        android:id="@+id/new_user"
+        android:id="@+id/change_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/new_user"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/remove_user"/>
+
 </LinearLayout>

@@ -20,6 +20,9 @@ public class User {
     public String getPassword() {
         return mPassword;
     }
+    public void setPassword(String newPassword){
+        mPassword = newPassword;
+    }
     public ArrayList<Note> getNoteList() {
         return mNoteList;
     }

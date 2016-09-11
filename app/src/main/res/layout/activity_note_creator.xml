@@ -38,4 +38,10 @@
         android:layout_height="wrap_content"
         android:text="@string/add_note"/>
 
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back_button"/>
+
 </LinearLayout>

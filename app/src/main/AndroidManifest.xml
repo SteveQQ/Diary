@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".controller.NotePresentationActivity">
         </activity>
+        <activity android:name=".controller.AccountManagementActivity">
+        </activity>
     </application>
 
 </manifest>

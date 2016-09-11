@@ -1,8 +1,5 @@
 package com.steveq.diary.controller;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +14,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordArea;
     private Button mLogIn;
     private Button mNewUser;
-    private Button mReomveUser;
     private UserManager mUserManager;
 
 
@@ -32,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordArea = (EditText)findViewById(R.id.password);
         mNewUser = (Button)findViewById(R.id.new_user);
         mLogIn = (Button)findViewById(R.id.log_in);
-        mReomveUser = (Button)findViewById(R.id.remove_user);
 
         mUserManager.initializeUsersList();
 
@@ -41,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = mUserNameArea.getText().toString();
                 String password = mPasswordArea.getText().toString();
-                mUserManager.createNewUser(username, password);
+                mUserManager.createNewUser(username, password, LoginActivity.this);
 
             }
         });
@@ -51,17 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = mUserNameArea.getText().toString();
                 String password = mPasswordArea.getText().toString();
-                mUserManager.logIn(username, password);
-                cleanEdits();
-            }
-        });
-
-        mReomveUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = mUserNameArea.getText().toString();
-                String password = mPasswordArea.getText().toString();
-                mUserManager.removeUser(username, password);
+                mUserManager.logIn(username, password, LoginActivity.this);
                 cleanEdits();
             }
         });

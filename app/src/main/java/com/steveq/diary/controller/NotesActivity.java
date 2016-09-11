@@ -20,6 +20,7 @@ public class NotesActivity extends AppCompatActivity {
     private ListView mNotesList;
     private Button mAddNote;
     private Button mLogOut;
+    private Button mAccount;
     private UserManager mUserManager;
     public static final int CHECK_IF_REMOVE = 10;
 
@@ -31,6 +32,7 @@ public class NotesActivity extends AppCompatActivity {
         //-----DECLARATIONS-----//
         mUserManager = UserManager.getInstance(null);
         mAddNote = (Button)findViewById(R.id.add_note);
+        mAccount = (Button)findViewById(R.id.account);
         mLogOut = (Button)findViewById(R.id.log_out);
         mNotesList = (ListView)findViewById(R.id.notes);
         //-----DECLARATIONS-----//
@@ -44,10 +46,18 @@ public class NotesActivity extends AppCompatActivity {
 
 
         //-----SETTING CLICK LISTENERS-----//
+        mAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NotesActivity.this, AccountManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
         mLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                mUserManager.logOut(NotesActivity.this);
             }
         });
 

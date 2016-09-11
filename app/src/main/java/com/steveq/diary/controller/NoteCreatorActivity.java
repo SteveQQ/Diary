@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.steveq.diary.R;
 import com.steveq.diary.model.Note;
@@ -23,6 +24,7 @@ public class NoteCreatorActivity extends AppCompatActivity {
     TextView mTimeArea;
     EditText mContent;
     Button mFinishNote;
+    Button mBackButton;
     private UserManager manager;
 
     @Override
@@ -36,11 +38,23 @@ public class NoteCreatorActivity extends AppCompatActivity {
         mTimeArea = (TextView)findViewById(R.id.curTime);
         mContent = (EditText)findViewById(R.id.content);
         mFinishNote = (Button)findViewById(R.id.add_new_note);
+        mBackButton = (Button)findViewById(R.id.backButton);
 
         mFinishNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manager.addNote(new Note(mTitle.getText().toString(), mContent.getText().toString(), mTimeArea.getText().toString()));
+                if(!mTitle.getText().toString().trim().equals("")) {
+                    manager.addNote(new Note(mTitle.getText().toString(), mContent.getText().toString(), mTimeArea.getText().toString()));
+                    finish();
+                } else {
+                    Toast.makeText(NoteCreatorActivity.this, "Insert Title", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.steveq.diary.controller.LoginActivity;
 import com.steveq.diary.controller.NotesActivity;
 
 import org.jasypt.util.text.BasicTextEncryptor;
@@ -32,7 +33,7 @@ public class UserManager {
     protected UserManager(Context ctx){
         mContext = ctx;
         mUserNames = new HashSet<>();
-        mSharedPreferences = ctx.getSharedPreferences("myUsers", Activity.MODE_PRIVATE);
+        mSharedPreferences = mContext.getSharedPreferences("myUsers", Activity.MODE_PRIVATE);
         mSharedPreferencesEditor = mSharedPreferences.edit();
         gson = new Gson();
         mEncryptor = new BasicTextEncryptor();
@@ -60,19 +61,30 @@ public class UserManager {
     //******GETTERS SETTERS******//
 
     //******USERS SERVICES*****//
-    public boolean createNewUser(String username, String password){
+    public boolean changePassword(String password, String newPassword, Context ctx){
+        if(validate(newPassword) && !newPassword.equals(password)){
+            User user = loadUser(currentUser);
+            user.setPassword(newPassword);
+            saveUser(currentUser, user);
+            Toast.makeText(ctx, "Password Changed", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean createNewUser(String username, String password, Context ctx){
         if(credentialValidation(username, password) && !mUserNames.contains(username)){
             saveUser(username, new User(username, password));
             registerUser(username);
-            Toast.makeText(mContext, "User added", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "User added", Toast.LENGTH_LONG).show();
             return true;
         } else {
-            Toast.makeText(mContext, "User already exists", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "User already exists", Toast.LENGTH_LONG).show();
             return false;
         }
     }
 
-    public boolean logIn(String username, String password){
+    public boolean logIn(String username, String password, Context ctx){
         if(credentialValidation(username, password) && mUserNames.contains(username)){
             if(passwordMatches(loadUser(username), password)){
                 currentUser = username;
@@ -80,27 +92,34 @@ public class UserManager {
                 mContext.startActivity(intent);
                 return true;
             } else {
-                Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, "Wrong Password", Toast.LENGTH_LONG).show();
                 return false;
             }
         } else {
-            Toast.makeText(mContext, "No such user", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "No such user", Toast.LENGTH_LONG).show();
             return false;
         }
     }
 
-    public boolean removeUser(String username, String password){
-        if(credentialValidation(username, password) && mUserNames.contains(username)){
-            if(passwordMatches(loadUser(username), password)){
-                deleteUser(username);
-                Toast.makeText(mContext, "User Removed", Toast.LENGTH_LONG).show();
+    public boolean logOut(Context ctx){
+        Intent intent = new Intent(ctx, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        ctx.startActivity(intent);
+        return true;
+    }
+
+    public boolean removeUser(String password, Context ctx){
+        if(credentialValidation(currentUser, password) && mUserNames.contains(currentUser)){
+            if(passwordMatches(loadUser(currentUser), password)){
+                deleteUser(currentUser);
+                Toast.makeText(ctx, "User Removed", Toast.LENGTH_LONG).show();
                 return true;
             } else {
-                Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, "Wrong Password", Toast.LENGTH_LONG).show();
                 return false;
             }
         } else {
-            Toast.makeText(mContext, "Wrong Credentials", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "Wrong Credentials", Toast.LENGTH_LONG).show();
             return false;
         }
     }
