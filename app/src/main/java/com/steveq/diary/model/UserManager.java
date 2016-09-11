@@ -24,6 +24,7 @@ public class UserManager {
     private Context mContext;
     private static Set<String> mUserNames;
     private SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mSharedPreferencesEditor;
     private Gson gson;
     private BasicTextEncryptor mEncryptor;
 
@@ -31,6 +32,7 @@ public class UserManager {
         mContext = ctx;
         mUserNames = new HashSet<>();
         mSharedPreferences = ctx.getSharedPreferences("myUsers", Activity.MODE_PRIVATE);
+        mSharedPreferencesEditor = mSharedPreferences.edit();
         gson = new Gson();
         mEncryptor = new BasicTextEncryptor();
         mEncryptor.setPassword("2851#%!dsga1@$!%$");
@@ -59,15 +61,8 @@ public class UserManager {
     //******USERS SERVICES*****//
     public boolean createNewUser(String username, String password){
         if(credentialValidation(username, password) && !mUserNames.contains(username)){
-            String jsonUser = gson.toJson(new User(username, password));
-
-            SharedPreferences.Editor mSharedPreferencesEditor = mSharedPreferences.edit();
-            mSharedPreferencesEditor.putString(username, mEncryptor.encrypt(jsonUser));
-            mSharedPreferencesEditor.commit();
+            saveUser(username, new User(username, password));
             registerUser(username);
-            mSharedPreferencesEditor.putStringSet("usersSet", mUserNames);
-            mSharedPreferencesEditor.commit();
-
             Toast.makeText(mContext, "User added", Toast.LENGTH_LONG).show();
             return true;
         } else {
@@ -78,9 +73,7 @@ public class UserManager {
 
     public boolean logIn(String username, String password){
         if(credentialValidation(username, password) && mUserNames.contains(username)){
-            String jsonUser = mSharedPreferences.getString(username, "");
-            User user = gson.fromJson(mEncryptor.decrypt(jsonUser), User.class);
-            if(passwordMatches(user, password)){
+            if(passwordMatches(loadUser(username), password)){
                 Intent intent = new Intent(mContext, NotesActivity.class);
                 intent.putExtra("username", username);
                 mContext.startActivity(intent);
@@ -97,13 +90,8 @@ public class UserManager {
 
     public boolean removeUser(String username, String password){
         if(credentialValidation(username, password) && mUserNames.contains(username)){
-            String jsonUser = mSharedPreferences.getString(username, "");
-            User user = gson.fromJson(jsonUser, User.class);
-            if(passwordMatches(user, password)){
-                SharedPreferences.Editor mSharedPreferencesEditor = mSharedPreferences.edit();
-                mSharedPreferencesEditor.remove(username);
-                mSharedPreferencesEditor.commit();
-                mUserNames.remove(username);
+            if(passwordMatches(loadUser(username), password)){
+                deleteUser(username);
                 Toast.makeText(mContext, "User Removed", Toast.LENGTH_LONG).show();
                 return true;
             } else {
@@ -117,21 +105,13 @@ public class UserManager {
     }
 
     public void addNote(String username, Note note){
-        String jsonUser = mSharedPreferences.getString(username, "");
-        User user = gson.fromJson(mEncryptor.decrypt(jsonUser), User.class);
+        User user = loadUser(username);
         user.addNote(note);
-
-        jsonUser = gson.toJson(user);
-        SharedPreferences.Editor mSharedPreferencesEditor = mSharedPreferences.edit();
-        mSharedPreferencesEditor.putString(username, mEncryptor.encrypt(jsonUser));
-        mSharedPreferencesEditor.commit();
-
+        saveUser(username, user);
     }
 
     public ArrayList<Note> showNotes(String username){
-        String jsonUser = mSharedPreferences.getString(username, "");
-        User user = gson.fromJson(mEncryptor.decrypt(jsonUser), User.class);
-        return user.getNoteList();
+        return loadUser(username).getNoteList();
     }
     //******USERS SERVICES*****//
 
@@ -142,6 +122,8 @@ public class UserManager {
 
     private boolean registerUser(String user){
         mUserNames.add(user);
+        mSharedPreferencesEditor.putStringSet("usersSet", mUserNames);
+        mSharedPreferencesEditor.commit();
         return true;
     }
 
@@ -165,6 +147,26 @@ public class UserManager {
             return true;
         }
         return false;
+    }
+
+    private User loadUser(String username){
+        String jsonUser = mSharedPreferences.getString(username, "");
+        return gson.fromJson(mEncryptor.decrypt(jsonUser), User.class);
+    }
+
+    private boolean saveUser(String username, User user){
+        String jsonUser = gson.toJson(user);
+        mSharedPreferencesEditor.putString(username, mEncryptor.encrypt(jsonUser));
+        mSharedPreferencesEditor.commit();
+        return true;
+    }
+
+    private boolean deleteUser(String username){
+        mSharedPreferencesEditor.remove(username);
+        mUserNames.remove(username);
+        mSharedPreferencesEditor.putStringSet("usersSet", mUserNames);
+        mSharedPreferencesEditor.commit();
+        return true;
     }
     //******HELPER METHODS*****//
 }
