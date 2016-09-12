@@ -9,11 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".controller.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".controller.NotesActivity">
         </activity>
@@ -22,6 +17,14 @@
         <activity android:name=".controller.NotePresentationActivity">
         </activity>
         <activity android:name=".controller.AccountManagementActivity">
+        </activity>
+        <activity android:name=".controller.SplashScreenActivity"
+                    android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
