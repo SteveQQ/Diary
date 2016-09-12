@@ -12,6 +12,8 @@
     <string name="back_button">Back</string>
     <string name="remove_note">Remove Note</string>
     <string name="account">Account</string>
-    <string name="account_management">Diary Account Management</string>
+    <string name="account_management">Account Management</string>
     <string name="change_password">Change Password</string>
+    <string name="retype_password">New Password</string>
+    <string name="change_username">Change Username</string>
 </resources>

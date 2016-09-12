@@ -23,6 +23,11 @@ public class User {
     public void setPassword(String newPassword){
         mPassword = newPassword;
     }
+
+    public void setUserName(String userName) {
+        mUserName = userName;
+    }
+
     public ArrayList<Note> getNoteList() {
         return mNoteList;
     }

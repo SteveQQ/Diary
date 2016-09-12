@@ -61,15 +61,39 @@ public class UserManager {
     //******GETTERS SETTERS******//
 
     //******USERS SERVICES*****//
-    public boolean changePassword(String password, String newPassword, Context ctx){
-        if(validate(newPassword) && !newPassword.equals(password)){
-            User user = loadUser(currentUser);
-            user.setPassword(newPassword);
-            saveUser(currentUser, user);
-            Toast.makeText(ctx, "Password Changed", Toast.LENGTH_LONG).show();
-            return true;
+    public void changePassword(String username, String password, String newPassword, Context ctx){
+        if(validate(username)                   &&
+                validate(password)              &&
+                validate(newPassword)           &&
+                username.equals(currentUser)    &&
+                !newPassword.equals(password)){
+            if(passwordMatches(loadUser(username), password)) {
+                User user = loadUser(currentUser);
+                user.setPassword(newPassword);
+                saveUser(currentUser, user);
+                Toast.makeText(ctx, "Password Changed", Toast.LENGTH_LONG).show();
+                logOut(ctx);
+            }
+        } else {
+            Toast.makeText(ctx, "Insert valid credentials", Toast.LENGTH_LONG).show();
         }
-        return false;
+    }
+
+    public void changeUsername(String newUsername, String password, Context ctx){
+        if(credentialValidation(newUsername, password)){
+            if(passwordMatches(loadUser(currentUser), password)) {
+                User user = loadUser(currentUser);
+                user.setUserName(newUsername);
+                saveUser(newUsername, user);
+                registerUser(newUsername);
+                deleteUser(currentUser);
+                logOut(ctx);
+            } else {
+                Toast.makeText(ctx, "Insert correct password", Toast.LENGTH_LONG).show();
+            }
+        }else {
+            Toast.makeText(ctx, "Insert valid credentials", Toast.LENGTH_LONG).show();
+        }
     }
 
     public boolean createNewUser(String username, String password, Context ctx){
