@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.steveq.diary.R;
 import com.steveq.diary.model.Note;
+import com.steveq.diary.model.NoteAdapter;
 import com.steveq.diary.model.User;
 import com.steveq.diary.model.UserManager;
 
@@ -89,10 +90,13 @@ public class NotesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
-                this,
-                android.R.layout.simple_list_item_1,
-                mUserManager.showNotes());
+//        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
+//                this,
+//                android.R.layout.simple_list_item_1,
+//                mUserManager.showNotes());
+        NoteAdapter noteAdapter = new NoteAdapter(this,
+                                                    R.layout.row_layout,
+                                                    mUserManager.showNotes());
         mNotesList.setAdapter(noteAdapter);
     }
 

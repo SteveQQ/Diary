@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         mNewUser = (Button)findViewById(R.id.new_user);
         mLogIn = (Button)findViewById(R.id.log_in);
 
-        mUserManager.initializeUsersList();
 
         mNewUser.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="imageSize">200dp</dimen>
     <dimen name="bigLetters">30sp</dimen>
+    <dimen name="smallLetters">15dp</dimen>
     <dimen name="sideMargin">16dp</dimen>
     <dimen name="topMargin">16dp</dimen>
 </resources>
