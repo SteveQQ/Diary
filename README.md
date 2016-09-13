@@ -23,7 +23,11 @@ Full list of features in v1.0 :
 #Installing
 
 1. Download APK file
-2. 
+2. Create New Folder on your device (e.g /Diary)
+3. Deploy Diary.apk file in the folder
+4. On your phone go to: Settings -> Security -> check 'allow install from unknown sources'
+5. Install any of file explorer app on your phone
+6. In explorer app find folder you created and click on Diary.apk to install it
 
 #ENJOY :)
 
