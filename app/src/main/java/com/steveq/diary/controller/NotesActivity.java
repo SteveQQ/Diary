@@ -2,6 +2,7 @@ package com.steveq.diary.controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -90,10 +91,6 @@ public class NotesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        ArrayAdapter<Note> noteAdapter = new ArrayAdapter<Note>(
-//                this,
-//                android.R.layout.simple_list_item_1,
-//                mUserManager.showNotes());
         NoteAdapter noteAdapter = new NoteAdapter(this,
                                                     R.layout.row_layout,
                                                     mUserManager.showNotes());

@@ -1,7 +1,9 @@
 package com.steveq.diary.controller;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,7 @@ public class NotePresentationActivity extends AppCompatActivity {
     private Button mBackButton;
     private Button mRemoveButton;
     private int position;
+    private AlertDialog.Builder mAlert;
 
 
     @Override
@@ -32,7 +35,13 @@ public class NotePresentationActivity extends AppCompatActivity {
         mContentView = (TextView)findViewById(R.id.contentView);
         mBackButton = (Button)findViewById(R.id.back);
         mRemoveButton = (Button)findViewById(R.id.remove_note);
+        mAlert = new AlertDialog.Builder(NotePresentationActivity.this);
         //-----DECLARATIONS-----//
+
+        //-----ALERT BUILD-----//
+        mAlert.setTitle("REALLY?");
+        mAlert.setMessage("Are you sure to delete note?");
+        //-----ALERT BUILD-----//
 
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
@@ -56,10 +65,22 @@ public class NotePresentationActivity extends AppCompatActivity {
         mRemoveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("position", position);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                mAlert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        Intent intent = new Intent();
+                        intent.putExtra("position", position);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    }
+                });
+                mAlert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+
+                    }
+                });
+                mAlert.show();
             }
         });
         //-----SETTING CLICK LISTENERS-----//
